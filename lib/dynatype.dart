@@ -34,16 +34,21 @@ class DynaType extends Equatable {
   }) {
     // data.entries.map((e) => print(e.value == null));
 
+    // final sys = data.entries.map((e) => print(e.value.runtimeType)).toList();
+
     List<DynaType> gotData = data.entries.map((e) {
       if (e.value.runtimeType.toString() ==
           "_InternalLinkedHashMap<String, dynamic>") {
+        return DynaType(key: e.key, type: Map<String, dynamic>);
+      } else if (e.value.runtimeType.toString() ==
+          "_InternalLinkedHashMap<String, String>") {
         return DynaType(key: e.key, type: Map<String, dynamic>);
       }
       return DynaType(key: e.key, type: e.value.runtimeType);
     }).toList();
 
     List<DynaType> difference =
-    presence.toSet().difference(gotData.toSet()).toList();
+        presence.toSet().difference(gotData.toSet()).toList();
     var nullEntries = data.entries.where((e) => e.value == null).toList();
     List<DynaType> nullKeys = nullEntries.map((e) {
       if (e.value.runtimeType.toString() ==
