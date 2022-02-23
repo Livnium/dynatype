@@ -1,16 +1,13 @@
 import 'package:dynatype/dynatype.dart';
 
-
 ///[DynaCheck] is the class which holds the jsonResponse and
 ///presence of the json response how you want that jsonResponse to look like.
 class DynaCheck {
-
   ///Pass [Map<String,dynamic>] json in the data.
   final Map<String, dynamic> data;
 
   ///Pass [List<DynaType>] List in presence.
   final List<DynaType> presence;
-
 
   ///This is the constructor of DynaCheck class
   DynaCheck({

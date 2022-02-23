@@ -1,4 +1,3 @@
-
 library dynatype;
 
 import 'package:dynatype/dynacheck.dart';
@@ -10,7 +9,6 @@ export 'src/dynatype_base.dart';
 ///if every thing in the json response was correct then it will provide isEmpty true by using this you can make condition
 ///statements.
 class DynaFields {
-
   ///[notFound] is [List<DynaType>] which is outputted by [DynaCheck] instance.
   final List<DynaType> notFound;
 
@@ -26,9 +24,9 @@ class DynaFields {
 ///[DynaType] is the core class which contains keys and there data types of
 ///presence or jsonResponse.
 class DynaType extends Equatable {
-
   ///[Key] should match to the key that you require in json.
   final String key;
+
   ///[Type] should be the DataType that you want the value of the Map to be.
   final Type type;
 
@@ -48,6 +46,4 @@ class DynaType extends Equatable {
 extension DynaTypeExtension on List<DynaType> {
   ///This [dyna] extension helps to get all the missing keys from the json response it needs [List<DynaType>].
   List<String> get dyna => map((e) => DynaType.noDynaType(e)).toSet().toList();
-
 }
-
