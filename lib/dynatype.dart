@@ -37,26 +37,14 @@ class DynaType extends Equatable {
     // final sys = data.entries.map((e) => print(e.value.runtimeType)).toList();
 
     List<DynaType> gotData = data.entries.map((e) {
-      if (e.value.runtimeType.toString() ==
-          "_InternalLinkedHashMap<String, dynamic>") {
-        return DynaType(key: e.key, type: Map<String, dynamic>);
-      } else if (e.value.runtimeType.toString() ==
-          "_InternalLinkedHashMap<String, String>") {
-        return DynaType(key: e.key, type: Map<String, dynamic>);
-      }
-      return DynaType(key: e.key, type: e.value.runtimeType);
+      return dynaTypeCheck(e);
     }).toList();
 
     List<DynaType> difference =
         presence.toSet().difference(gotData.toSet()).toList();
     var nullEntries = data.entries.where((e) => e.value == null).toList();
     List<DynaType> nullKeys = nullEntries.map((e) {
-      if (e.value.runtimeType.toString() ==
-          "_InternalLinkedHashMap<String, dynamic>") {
-        return DynaType(key: e.key, type: Map<String, dynamic>);
-      } else {
-        return DynaType(key: e.key, type: e.value.runtimeType);
-      }
+      return dynaTypeCheck(e);
     }).toList();
 
     List<DynaType> required = difference + nullKeys;
@@ -69,4 +57,22 @@ class DynaType extends Equatable {
 
 extension DynaTypeExtension on List<DynaType> {
   List<String> get keys => map((e) => DynaType.noDynaType(e)).toSet().toList();
+}
+
+DynaType dynaTypeCheck(e) {
+  print(e.value.runtimeType);
+  if (e.value.runtimeType.toString() ==
+      "_InternalLinkedHashMap<String, dynamic>") {
+    return DynaType(key: e.key, type: Map<String, dynamic>);
+  } else if (e.value.runtimeType.toString() ==
+      "_InternalLinkedHashMap<String, String>") {
+    return DynaType(key: e.key, type: Map<String, String>);
+  }else if (e.value.runtimeType.toString() ==
+      "_InternalLinkedHashMap<String, int>") {
+    return DynaType(key: e.key, type: Map<String, int>);
+  }else if (e.value.runtimeType.toString() ==
+      "_InternalLinkedHashMap<String, Object>") {
+    return DynaType(key: e.key, type: Map<String, Object>);
+  }
+  return DynaType(key: e.key, type: e.value.runtimeType);
 }
