@@ -1,5 +1,5 @@
 name: dynatype
-description: The package helps developers make the process easy by validating the response of type JSON. The person using this package does not need to worry about any exception in JSON Map Entries. He can define a pattern for the JSON response using DynaType. The user can also define Data Types for the values. If it's an invalid value user will get a response using that he can perform functions.
+description: The package helps developers make the process easy by validating the response of type JSON. The person using this package does not need to worry about any exception in JSON Map Entries. He can define a pattern for the JSON response using DynaType.
 version: 1.0.3
 homepage: https://github.com/chetanxpatil/dynatype
 

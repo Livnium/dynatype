@@ -35,18 +35,18 @@ class DynaCheck {
 
   ///this is a private function it helps tho differentiate bet Map DataTypes
   DynaType _dynaTypeCheck(e) {
-    print(e.value.runtimeType);
-    if (e.value.runtimeType.toString() ==
-        "_InternalLinkedHashMap<String, dynamic>") {
+    // print(e.value.runtimeType);
+    if (e.value.runtimeType.toString().replaceAll(" ", "") ==
+        "_InternalLinkedHashMap<String, dynamic>".replaceAll(" ", "")) {
       return DynaType(key: e.key, type: Map<String, dynamic>);
-    } else if (e.value.runtimeType.toString() ==
-        "_InternalLinkedHashMap<String, String>") {
+    } else if (e.value.runtimeType.toString().replaceAll(" ", "") ==
+        "_InternalLinkedHashMap<String, String>".replaceAll(" ", "")) {
       return DynaType(key: e.key, type: Map<String, String>);
-    } else if (e.value.runtimeType.toString() ==
-        "_InternalLinkedHashMap<String, int>") {
+    } else if (e.value.runtimeType.toString().replaceAll(" ", "") ==
+        "_InternalLinkedHashMap<String, int>".replaceAll(" ", "")) {
       return DynaType(key: e.key, type: Map<String, int>);
-    } else if (e.value.runtimeType.toString() ==
-        "_InternalLinkedHashMap<String, Object>") {
+    } else if (e.value.runtimeType.toString().replaceAll(" ", "") ==
+        "_InternalLinkedHashMap<String, Object>".replaceAll(" ", "")) {
       return DynaType(key: e.key, type: Map<String, Object>);
     }
     return DynaType(key: e.key, type: e.value.runtimeType);
