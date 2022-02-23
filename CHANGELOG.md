@@ -1,3 +1,11 @@
+## 1.0.5
+
+- Bug Fixes
+
+## 1.0.4
+
+- made major changes in map comparison
+
 ## 1.0.3
 
 - updated README.md
