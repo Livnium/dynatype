@@ -1,3 +1,7 @@
+## 1.0.7
+
+- Solved issue of getting Map<String, Null> Data Type
+
 ## 1.0.6
 
 - Everything fixed

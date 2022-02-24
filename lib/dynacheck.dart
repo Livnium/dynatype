@@ -20,13 +20,16 @@ class DynaCheck {
     List<DynaType> gotData = data.entries.map((e) {
       return _dynaTypeCheck(e);
     }).toList();
+    List<DynaType> required = [];
     List<DynaType> difference =
         presence.toSet().difference(gotData.toSet()).toList();
+    required = difference;
     var nullEntries = data.entries.where((e) => e.value == null).toList();
-    List<DynaType> nullKeys = nullEntries.map((e) {
-      return _dynaTypeCheck(e);
+    nullEntries.map((e) {
+      if (difference.any((element) => element.key != e.key)) {
+        required.add(_dynaTypeCheck(e));
+      }
     }).toList();
-    List<DynaType> required = difference + nullKeys;
     return DynaFields(notFound: required);
   }
 
