@@ -1,54 +1,19 @@
 import 'package:dynatype/dynatype.dart';
 
-///[DynaCheck] is the class which holds the jsonResponse and
-///presence of the json response how you want that jsonResponse to look like.
 class DynaCheck {
-  ///Pass [Map<String,dynamic>] json in the data.
   final Map<String, dynamic> data;
-
-  ///Pass [List<DynaType>] List in presence.
   final List<DynaType> presence;
 
-  ///This is the constructor of DynaCheck class
   DynaCheck({
     required this.data,
     required this.presence,
   });
 
-  ///This Method get you the Missing data and there data types.
   DynaFields verifyFields() {
-    List<DynaType> gotData = data.entries.map((e) {
-      return _dynaTypeCheck(e);
-    }).toList();
-    List<DynaType> required = [];
-    List<DynaType> difference =
-        presence.toSet().difference(gotData.toSet()).toList();
-    required = difference;
-    var nullEntries = data.entries.where((e) => e.value == null).toList();
-    nullEntries.map((e) {
-      if (difference.any((element) => element.key != e.key)) {
-        required.add(_dynaTypeCheck(e));
-      }
-    }).toList();
+    List<DynaType> gotData = data.entries
+        .map((e) => DynaType(key: e.key, type: e.value.runtimeType))
+        .toList();
+    List<DynaType> required = presence.toSet().difference(gotData.toSet()).toList();
     return DynaFields(notFound: required);
-  }
-
-  ///this is a private function it helps tho differentiate bet Map DataTypes
-  DynaType _dynaTypeCheck(e) {
-    // print(e.value.runtimeType);
-    if (e.value.runtimeType.toString().replaceAll(" ", "") ==
-        "_InternalLinkedHashMap<String, dynamic>".replaceAll(" ", "")) {
-      return DynaType(key: e.key, type: Map<String, dynamic>);
-    } else if (e.value.runtimeType.toString().replaceAll(" ", "") ==
-        "_InternalLinkedHashMap<String, String>".replaceAll(" ", "")) {
-      return DynaType(key: e.key, type: Map<String, String>);
-    } else if (e.value.runtimeType.toString().replaceAll(" ", "") ==
-        "_InternalLinkedHashMap<String, int>".replaceAll(" ", "")) {
-      return DynaType(key: e.key, type: Map<String, int>);
-    } else if (e.value.runtimeType.toString().replaceAll(" ", "") ==
-        "_InternalLinkedHashMap<String, Object>".replaceAll(" ", "")) {
-      return DynaType(key: e.key, type: Map<String, Object>);
-    }
-    return DynaType(key: e.key, type: e.value.runtimeType);
   }
 }
