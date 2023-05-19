@@ -1,37 +1,25 @@
-import 'dart:convert';
-import 'package:dynatype/dynacheck.dart';
 import 'package:dynatype/dynatype.dart';
 
-//This is My json List which i will receive in response or request.
-//You can try removing fields and text it.
-String json =
-    "{\"book\":{\"name\":\"200\",\"author\":\"Lingod\"},\"language\":\"english\",\"language2\":\"english\",\"publish\":1988}";
-
 void main() {
-  //Here i am defining the fields i required.
-  final List<DynaType> _requiredMain = [
-    DynaType(key: "book", type: Map<String, dynamic>),
-    DynaType(key: "language", type: String),
-    DynaType(key: "language2", type: String),
-    DynaType(key: "publish", type: int),
-  ];
+  // Define a JSON string
+  const String jsonString =
+      '{"title": "Title 1", "author": "Author 1", "year": 2023, "tags": ["Tag 1", "Tag 2"]}';
 
-  final List<DynaType> _requiredBook = [
-    DynaType(key: "name", type: String),
-    DynaType(key: "author", type: String),
-  ];
+  // Define a schema for the JSON string
+  final Map<String, List<DynaType>> schema = {
+    "": [
+      DynaType(key: "title", type: String),
+      DynaType(key: "author", type: String),
+      DynaType(key: "year", type: int),
+      DynaType(key: "tags", type: List<String>),
+    ],
+  };
 
-  //this is the [instance.verifyFields()] function which returns the missing, null and wrong data type Keys.
-  DynaCheck main = DynaCheck(data: jsonDecode(json), presence: _requiredMain);
-  if (main.verifyFields().isEmpty) {
-    DynaCheck book =
-        DynaCheck(data: jsonDecode(json)["book"], presence: _requiredBook);
-    if (book.verifyFields().isEmpty) {
-      print("The response is correct");
-    } else {
-      print("Missing or incorrect fields ${book.verifyFields().notFound.dyna}");
-    }
-  } else {
-    print("Missing or incorrect fields ${main.verifyFields().notFound.dyna}");
+  // Validate the JSON string against the schema
+  try {
+    DynaValidator(json: jsonString, schema: schema).validate();
+    print("The JSON is valid according to the schema.");
+  } catch (e) {
+    print('Error: $e');
   }
 }
